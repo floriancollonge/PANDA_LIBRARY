@@ -10,7 +10,7 @@ export function request(uri, verb, data, authorizedResource, target) {
     };
   }
   document.body.style.cursor = "wait";
-  let url = getUrl(target);
+  let url = getUrl(target) + uri;
   let respType = "json";
 
   return axios({
