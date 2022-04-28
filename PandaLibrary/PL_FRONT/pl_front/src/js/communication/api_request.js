@@ -1,27 +1,17 @@
-import axios from "axios"
-import * as auth from "./authentification_handler"
+import axios from "axios";
+import { targets } from "@/js/enums/targets";
+import * as auth from "./authentification_handler";
 
-export function request(
-  uri,
-  verb,
-  data,
-  authorizedResource,
-  target,
-  responseType,
-  cancelTokenSource
-) {
-  var headers = {}
+export function request(uri, verb, data, authorizedResource, target) {
+  let headers = {};
   if (authorizedResource) {
-    var headers = {
-      Authorization: auth.getAuthHeaderFromToken(auth.getAccessToken())
-    }
+    headers = {
+      Authorization: "Bearer " + auth.getAccessToken(),
+    };
   }
-  document.body.style.cursor = "wait"
-  var url = ""
-  var respType = "json"
-  if (responseType != "" && responseType != null) {
-    respType = responseType
-  }
+  document.body.style.cursor = "wait";
+  let url = getUrl(target);
+  let respType = "json";
 
   return axios({
     method: verb,
@@ -29,44 +19,60 @@ export function request(
     headers: headers,
     data: data,
     responseType: respType,
-    cancelToken: cancelTokenSource?.token
   })
     .then(function (response) {
-      document.body.style.cursor = "default"
-      return response
+      document.body.style.cursor = "default";
+      return response;
     })
     .catch(function (err) {
-      document.body.style.cursor = "default"
-      // we add this event, to stop the loader every time there is an error in a http request, so we do not have to do this in every component calling this method
-      EventBus.$emit("loading", false)
-      throw err
-    })
+      document.body.style.cursor = "default";
+      throw err;
+    });
 }
 
 export function refreshToken(instance) {
   try {
     if (!auth.getRefreshToken()) {
-      auth.clearStorage(instance)
-      instance.$router.push({ name: "login" })
+      auth.clearStorage(instance);
+      instance.$router.push({ name: "login" });
     }
-    var refreshDatas = {
+    let refreshDatas = {
       refresh_token: auth.getRefreshToken(),
       client_id: instance.$whitelabel.clientId,
       client_secret: instance.$whitelabel.clientSecret,
       id_user: auth.getIdUserFromToken(),
-      grant_type: "token"
-    }
+      grant_type: "token",
+    };
 
     return request("/v1/gate/token", "put", refreshDatas, false)
       .then(function (response) {
-        auth.setRefreshToken(response.data.refresh_token)
-        auth.setAccessToken(response.data.access_token)
+        auth.setRefreshToken(response.data.refresh_token);
+        auth.setAccessToken(response.data.access_token);
       })
-      .catch(function (err) {
-        auth.disconnect(instance)
-      })
+      .catch(function () {
+        auth.disconnect(instance);
+      });
   } catch {
-    auth.clearStorage(instance)
-    instance.$router.push({ name: "login" })
+    auth.clearStorage(instance);
+    instance.$router.push({ name: "login" });
+  }
+}
+
+function getUrl(target) {
+  switch (target) {
+    case targets.Library:
+      return process.env.VUE_APP_LIBRARY_URL;
+    case targets.Order:
+      return process.env.VUE_APP_ORDER_URL;
+    case targets.Reference:
+      return process.env.VUE_APP_REFERENCE_URL;
+    case targets.Sale:
+      return process.env.VUE_APP_SALE_URL;
+    case targets.Stock:
+      return process.env.VUE_APP_STOCK_URL;
+    case targets.User:
+      return process.env.VUE_APP_USER_URL;
+    case targets.Barrier:
+      return process.env.VUE_APP_BARRIER_URL;
   }
 }

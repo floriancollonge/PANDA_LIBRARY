@@ -12,12 +12,12 @@
       <p v-if="loginError.length > 0" class="errorLabel">{{ loginError }}</p>
       <div id="login-btn">
         <v-btn
-          @click="generateOtp"
+          @click="generateOtp()"
           :loading="isLoading"
           v-shortkey="['enter']"
-          @shortkey.native="generateOtp()"
+          @shortkey="generateOtp()"
           :rounded="true"
-          class="dfwa-btn"
+          class="btn"
         >
           Générer
         </v-btn>
@@ -33,12 +33,12 @@
       <p v-if="otpError.length > 0" class="errorLabel">{{ otpError }}</p>
       <div id="login-btn">
         <v-btn
-          @click="validateOtp"
+          @click="validateOtp()"
           :loading="isLoading"
           v-shortkey="['enter']"
-          @shortkey.native="validateOtp()"
+          @shortkey="validateOtp()"
           :rounded="true"
-          class="dfwa-btn"
+          class="btn"
         >
           Se connecter
         </v-btn>
@@ -52,6 +52,10 @@
 </template>
 <script>
 import { request } from "@/js/communication/api_request";
+import {
+  setRefreshToken,
+  setAccessToken,
+} from "@/js/communication/authentification_handler";
 import { targets } from "@/js/enums/targets";
 
 export default {
@@ -113,7 +117,8 @@ export default {
         request("/v1/token", "post", self.input, false, targets.Barrier)
           .then(async (response) => {
             if (response.status == 200) {
-              await getTokens(this, response.data.code, response.data.state);
+              setRefreshToken(response.data.refresh_token);
+              setAccessToken(response.data.access_token);
               self.$router.push({ name: "home" });
             } else {
               self.isLoading = false;
