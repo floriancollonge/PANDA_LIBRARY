@@ -74,5 +74,7 @@ function getUrl(target) {
       return process.env.VUE_APP_USER_URL;
     case targets.Barrier:
       return process.env.VUE_APP_BARRIER_URL;
+    case targets.BI:
+      return process.env.VUE_APP_BI_URL;
   }
 }

@@ -2,7 +2,7 @@
   <div class="content-login">
     <h1>Connexion à Panda's Library</h1>
     <br />
-    <div id="login" v-if="step === steps.Login">
+    <div id="login" v-if="step === 'Login'">
       <v-text-field
         label="E-mail"
         v-model="input.login"
@@ -66,7 +66,7 @@ export default {
         Login: "login",
         Otp: "otp",
       },
-      step: this.steps.Login,
+      step: "",
       isLoading: false,
       loginError: "",
       otpError: "",
@@ -81,6 +81,9 @@ export default {
         client_secret: process.env.VUE_APP_CLIENT_SECRET,
       },
     };
+  },
+  mounted() {
+    this.step = this.steps.Login;
   },
   methods: {
     generateOtp() {
