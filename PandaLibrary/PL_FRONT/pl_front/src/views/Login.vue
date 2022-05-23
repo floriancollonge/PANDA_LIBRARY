@@ -35,7 +35,7 @@
         </button>
       </div>
     </div>
-    <!-- <div id="otp" v-if="step === steps.Otp"> -->
+    <div id="otp" v-if="step === steps.Otp">
       <label for="otp" class="form-label inline-block mb-2 text-gray-700">Code généré</label>
       <input
         type="text"
@@ -66,7 +66,7 @@
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="validateOtp()">
           Se connecter
         </button>
-      <!-- </div> -->
+      </div>
     </div>
 
     <!-- <div id="other-actions">
@@ -125,7 +125,7 @@ export default {
           .then(async (response) => {
             console.log("ok");
             self.isLoading = false;
-            if (response.status == 201) {
+            if (response.status == 204) {
               self.step = self.steps.Otp;
             } else {
               self.loginError = self.errorMessages.login.unknown;
