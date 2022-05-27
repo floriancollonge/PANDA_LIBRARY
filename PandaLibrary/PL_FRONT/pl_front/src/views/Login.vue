@@ -96,7 +96,11 @@ export default {
       otpError: "",
       errorMessages: {
         empty: "Cet élément ne peut être laissé vide.",
-        login: {},
+        login: {
+        },
+        otp: {
+          unknown: "Mot de passe temporaire invalide."
+        }
       },
       input: {
         login: "",
@@ -111,7 +115,6 @@ export default {
   },
   methods: {
     generateOtp() {
-      console.log("generate " + this.validateInputs());
       this.isLoading = true;
       if (this.validateInputs()) {
         let self = this;
@@ -123,7 +126,6 @@ export default {
           targets.Barrier
         )
           .then(async (response) => {
-            console.log("ok");
             self.isLoading = false;
             if (response.status == 204) {
               self.step = self.steps.Otp;
@@ -131,8 +133,7 @@ export default {
               self.loginError = self.errorMessages.login.unknown;
             }
           })
-          .catch(function (err) {
-            console.log(err);
+          .catch(function () {
             self.isLoading = false;
             self.passwordError = self.errorMessages.login.unknown;
           });
@@ -149,7 +150,7 @@ export default {
             if (response.status == 200) {
               setRefreshToken(response.data.refresh_token);
               setAccessToken(response.data.access_token);
-              self.$router.push({ name: "home" });
+              self.$router.push({ name: "Home" });
             } else {
               self.isLoading = false;
               self.otpError = self.errorMessages.otp.unknown;
