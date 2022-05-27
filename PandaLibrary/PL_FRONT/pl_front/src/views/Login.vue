@@ -173,7 +173,7 @@ export default {
             if (response.status == 200) {
               setRefreshToken(response.data.refresh_token);
               setAccessToken(response.data.access_token);
-              self.$router.push({ name: "Home" });
+              self.$router.push({ name: "Accueil" });
             } else {
               self.isLoading = false;
               self.otpError = self.errorMessages.otp.unknown;
