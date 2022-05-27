@@ -18,10 +18,15 @@ module.exports = {
         },
         'gray': '#F2F2F2',
       },
+      minWidth: {
+        '100': '100px',
+      },
       minHeight: {
+        '150': '150px',
         '300': '300px',
       },
       spacing: {
+        '50': '50px',
         '500': '500px',
       }
     }
