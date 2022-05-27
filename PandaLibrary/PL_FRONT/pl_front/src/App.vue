@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-screen font-poppins">
     <link href="/dist/output.css" rel="stylesheet" />
     <div id="nav">
       <router-link to="/">Home</router-link> |
@@ -31,4 +31,5 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 </style>
