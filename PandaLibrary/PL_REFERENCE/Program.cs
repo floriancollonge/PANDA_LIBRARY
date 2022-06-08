@@ -28,7 +28,7 @@ namespace PL_REFERENCE
                         $"reference.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json";
 
                     configuration
-                        .SetBasePath(Directory.GetCurrentDirectory() + "/PL_REFERENCE")
+                        .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("reference.json", false, true)
                         .AddJsonFile(currentEnv, true);
                 });

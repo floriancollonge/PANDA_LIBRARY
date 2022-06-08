@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
+using Reference.Settings;
+using Reference.Books.Services;
 
 namespace PL_REFERENCE
 {
@@ -32,6 +34,8 @@ namespace PL_REFERENCE
             });
 
             services.AddControllers();
+            services.Configure<ReferenceDatabaseSetting>(Configuration.GetSection("BookDatabase"));
+            services.AddScoped<IBookService, BookService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
