@@ -166,7 +166,7 @@ export default {
     },
     validateOtp() {
       this.isLoading = true;
-      // if (this.validateInputs()) {
+      if (this.validateInputs()) {
         var self = this;
         request("/v1/token", "post", self.input, false, targets.Barrier)
           .then(async (response) => {
@@ -183,9 +183,9 @@ export default {
             self.isLoading = false;
             self.otpError = self.errorMessages.otp.unknown;
           });
-      // } else {
-      //   this.isLoading = false;
-      // }
+      } else {
+        this.isLoading = false;
+      }
     },
     create() {
       this.$router.push({ name: "subscribe" });

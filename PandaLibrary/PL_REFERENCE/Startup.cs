@@ -34,7 +34,7 @@ namespace PL_REFERENCE
             });
 
             services.AddControllers();
-            services.Configure<ReferenceDatabaseSetting>(Configuration.GetSection("BookDatabase"));
+            services.Configure<ReferenceDatabaseSetting>(Configuration.GetSection("ReferenceDatabase"));
             services.AddScoped<IBookService, BookService>();
         }
 

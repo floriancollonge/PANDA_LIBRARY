@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 namespace Reference.Dilicom
 {
 
-    [XmlRoot("ONIXMessage")]
+    [XmlRoot(ElementName = "ONIXMessage", Namespace = "http://www.editeur.org/onix/3.0/reference")]
     public class OnixMessage
     {
         [XmlElement("Header")]

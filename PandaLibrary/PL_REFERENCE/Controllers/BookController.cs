@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Xml.Serialization;
 using Reference.Dilicom;
 using System.IO;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace Reference.Books
 {
@@ -23,10 +25,11 @@ namespace Reference.Books
         [Route("/book/integrate")]
         public void Integrate()
         {
-            using (StreamReader reader = new StreamReader("/media/fcollonge/0D2F-12D1/Documentation/Société/Panda's Library/DOCS TECHNIQUES LIBRAIRE ONIX/exemples notices enrichies.zip"))
+            using (StreamReader reader = new StreamReader("/media/fcollonge/0D2F-12D1/notices.xml"))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(OnixMessage));
                 OnixMessage onixMessage = (OnixMessage) serializer.Deserialize(reader);
+                Console.WriteLine("OK");
             }
 
 
